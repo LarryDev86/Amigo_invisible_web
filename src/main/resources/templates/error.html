@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <link rel="stylesheet" th:href="@{/estilo.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+
+</head>
+<body>
+    <div class="contenedor-alerta">
+        <div class="alert alert-danger mx-auto w-75 text-center" role="alert">
+            El email introducido no es valido!!
+        </div>
+    </div>
+<footer class="pie">
+    <small>
+        © 2025 Alfonso Redondo. Todos los derechos reservados.
+    </small>
+</footer>
+
+<script>
+    setTimeout(function () {
+        window.location.href = /*[[@{/}]]*/ "/";
+    }, 3000); // 3 segundos
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+</html>
