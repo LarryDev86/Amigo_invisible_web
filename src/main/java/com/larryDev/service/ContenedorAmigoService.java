@@ -23,7 +23,9 @@ public class ContenedorAmigoService {
     public void guardarEnContenedor(int familiarId, int amigoTocadoId){
         contenedorAmigoRepository.save(new ContenedorAmigoSeleccionado(familiarId,amigoTocadoId));
     }
-
+    public void borrarTodaLaListaDeAmigos(){
+        contenedorAmigoRepository.deleteAll();
+    }
     private ContenedorAmigoSeleccionado buscarAmigoPorId(int id){
 
         for (ContenedorAmigoSeleccionado c : contenedorAmigoRepository.findAll()) {

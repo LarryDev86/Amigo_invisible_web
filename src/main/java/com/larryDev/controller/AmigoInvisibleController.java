@@ -7,6 +7,7 @@ import com.larryDev.service.ContenedorAmigoService;
 import com.larryDev.service.FamiliarService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,12 @@ public class AmigoInvisibleController {
 
     @Autowired
     ClaseEmailService claseEmailService;
+
+    @Value("${email.admin}")
+    private String emailAdmin;
+
+    @Value("${password.admin}")
+    private String passwordAdmin;
 
     @GetMapping("/")
     public String getFamiliares(Model modelo){
@@ -59,9 +66,36 @@ public class AmigoInvisibleController {
 
             return "vista";
         }
+        modelo.addAttribute("mensaje","El email introducido no es valido!");
         return "error";
     }
-
+    //Metodo para comprobar los datos del administrador.
+    @GetMapping("/admin")
+    public String comprobarDatosAdmin(@RequestParam("email") String email, @RequestParam("password") String password,
+                                      Model modelo){
+        System.out.println("El email del admin es: "+email);
+        System.out.println("La contraseña del admin es: "+password);
+        if(verificarLogin(email, password)){
+            return "vistaAdmin";
+        }
+        modelo.addAttribute("mensaje","El email o la contraseña no son correctos!!");
+        return "error";
+    }
+    //Metodo para actualizar la BD
+    @GetMapping("/querys")
+    public String borrarBaseDeDatosAmigos(){
+        contenedorAmigoService.borrarTodaLaListaDeAmigos();
+        familiaController.cambiarDisponibleTodosFamiliares();
+        System.out.println("Se borro con exito.. y se han puesto todos como disponibles");
+        return "redirect:/";
+    }
+    //Veridicar email y contraseña del admin.
+    private boolean verificarLogin(String email, String password){
+        if(email.equals(emailAdmin) && password.equals(passwordAdmin)){
+            return true;
+        }
+        return false;
+    }
     //Metodo para que le toque uno de manera aleatoria, de la clase familiares.
     private Integer obtenerFamiliar(List<Familiar> listaFam , int id){
         Random ran = new Random();

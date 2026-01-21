@@ -19,7 +19,15 @@ public class FamiliarService {
 
         this.repoFamiliar = repoFamiliar;
     }
+    public void cambiarDisponibleTodosFamiliares(){
 
+        for (Familiar f : listarTodosLosFamiliares()) {
+            if(f.isDisponible() == false){
+                f.setDisponible(true);
+                repoFamiliar.save(f);
+            }
+        }
+    }
     public void cambiarDisponibilidadAlFamiliar(Integer id){
         Optional<Familiar> fam = repoFamiliar.findById(id);
             if(fam.isPresent()){
