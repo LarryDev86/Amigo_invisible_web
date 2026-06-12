@@ -2,6 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <!-- Con esto hacemos que se ajuste mejor en los moviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Linkeado para aspecto de whatsapp-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!--Linkeado para aspecto de whatsapp-->
+
     <!-- Bootstrap core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
           rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
@@ -19,6 +26,8 @@
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
             Iniciar sesión
         </button>
+        <!--a class="btn btn-primary" th:href="@{/logout}">Salir</a>   Esto si usamos thymeleaf-->
+        <a class="btn btn-primary" href="/logout">Salir</a>
     </div>
         <!-- Modal -->
         <div class="modal fade" id="loginModal" tabindex="-1">
@@ -61,7 +70,7 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label for="email" class="form-label">Emial</label>
+                <label for="email" class="form-label">Email</label>
                 <input type="text" class="form-control" name = "email" id="email" required>
             </div>
             <div class="mb-3 form-check">

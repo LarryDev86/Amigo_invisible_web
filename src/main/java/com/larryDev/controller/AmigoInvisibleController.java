@@ -21,13 +21,13 @@ import java.util.Random;
 public class AmigoInvisibleController {
 
     @Autowired
-    private FamiliarService familiaController;
+    private FamiliarService familiarService;
 
     @Autowired
-    ContenedorAmigoService contenedorAmigoService;
+    private ContenedorAmigoService contenedorAmigoService;
 
     @Autowired
-    ClaseEmailService claseEmailService;
+    private ClaseEmailService claseEmailService;
 
     @Value("${email.admin}")
     private String emailAdmin;
@@ -37,7 +37,7 @@ public class AmigoInvisibleController {
 
     @GetMapping("/")
     public String getFamiliares(Model modelo){
-        modelo.addAttribute("familiares",familiaController.listarTodosLosFamiliaresDisponibles());
+        modelo.addAttribute("familiares",familiarService.listarTodosLosFamiliaresDisponibles());
         return "formulario";
     }
     @GetMapping("/save")
@@ -47,23 +47,13 @@ public class AmigoInvisibleController {
         if(email.contains("@") && email.contains("gmail") && email.contains(".com") || email.contains("gmail") && email.contains(".es") ||
                 email.contains("hotmail") && email.contains(".com") ||  email.contains("hotmail") && email.contains(".es") ||
                 email.contains("icloud") && email.contains(".com") ){
-            int idAmigoElegido = obtenerFamiliar(familiaController.listarTodosLosFamiliares(),
-                    Integer.parseInt(id) );
-            contenedorAmigoService.guardarEnContenedor(Integer.parseInt(id),idAmigoElegido);
-            System.out.println("Comletado con exito!!");
-            //Si se a podido asignar un amigo al familiar, lo declaramos no disponible en la BD.
-            familiaController.cambiarDisponibilidadAlFamiliar(Integer.parseInt(id));
-            modelo.addAttribute("nombreFamiliar",familiaController.
-                    buscarFamiliarPorId(Integer.parseInt(id)).getNombre());
-            modelo.addAttribute("nombreAmigo",familiaController.
-                    buscarFamiliarPorId(idAmigoElegido).getNombre());
-            //------------------------------------------------------------------------------------------
+            int idAmigoElegido = contenedorAmigoService.asignarAmigo(familiarService.listarTodosLosFamiliares(),
+                    Integer.parseInt(id));
             //Invocamos la clase del email.
-            claseEmailService.enviarEmail(familiaController.
+            claseEmailService.enviarEmail(familiarService.
                             buscarFamiliarPorId(Integer.parseInt(id)).getNombre(),email,
-                    familiaController.
+                    familiarService.
                             buscarFamiliarPorId(idAmigoElegido).getNombre());
-
             return "vista";
         }
         modelo.addAttribute("mensaje","El email introducido no es valido!");
@@ -85,7 +75,7 @@ public class AmigoInvisibleController {
     @GetMapping("/querys")
     public String borrarBaseDeDatosAmigos(){
         contenedorAmigoService.borrarTodaLaListaDeAmigos();
-        familiaController.cambiarDisponibleTodosFamiliares();
+        familiarService.cambiarDisponibleTodosFamiliares();
         System.out.println("Se borro con exito.. y se han puesto todos como disponibles");
         return "redirect:/";
     }
@@ -96,28 +86,5 @@ public class AmigoInvisibleController {
         }
         return false;
     }
-    //Metodo para que le toque uno de manera aleatoria, de la clase familiares.
-    private Integer obtenerFamiliar(List<Familiar> listaFam , int id){
-        Random ran = new Random();
-        int idElegido = 0;
-        List<ContenedorAmigoSeleccionado> listaContenedor = contenedorAmigoService.listarTodoElContenedor();
 
-        while(true){
-            idElegido = ran.nextInt(listaFam.size())+1;
-            //Familiar famElegido = listaFam.get(ran.nextInt(listaFam.size())+1);
-            if(idElegido == id)continue;
-            boolean yaSalio = false;
-            //Comprobamos el numero random, con los id que hay en la tabla de amigos que ya le han tocado a alguien.
-            for (ContenedorAmigoSeleccionado c : listaContenedor) {
-                if(idElegido == c.getAmigoTocadoId()){
-                    yaSalio = true;
-                    break;
-                }
-            }
-            //Si no ha salido devuelve el id que no ha salido.
-            if(!yaSalio){
-                return idElegido;
-            }
-        }
-    }
 }

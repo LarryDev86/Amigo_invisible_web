@@ -1,16 +1,13 @@
 package com.larryDev.service;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
+import jakarta.mail.*;
+import jakarta.mail.internet.*;
 import org.springframework.beans.factory.annotation.Value;
-import jakarta.mail.Message;
-import jakarta.mail.MessagingException;
-import jakarta.mail.PasswordAuthentication;
-import jakarta.mail.Session;
-import jakarta.mail.Transport;
-import jakarta.mail.internet.AddressException;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
 import org.springframework.stereotype.Component;
-
+import java.io.*;
 import java.util.Properties;
 
 @Component
@@ -21,7 +18,7 @@ public class ClaseEmailService {
     @Value("${email.password}")
     private String contraseña;
 
-    public  void enviarEmail(String nombreFamiliar, String email , String nombreAmigo) throws AddressException, MessagingException{
+    public  void enviarEmail(String nombreFamiliar, String email , String nombreAmigo) {
 
         Properties props = new Properties();
         props.put("mail.smtp.auth","true");
@@ -31,7 +28,6 @@ public class ClaseEmailService {
         props.put("mail.smtp.ssl.trust","smtp.gmail.com");
         props.put("mail.smtp.host","smtp.gmail.com");
         props.put("mail.smtp.port","587");
-
         Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication(){
                 return new PasswordAuthentication(remitente , contraseña);
@@ -42,16 +38,20 @@ public class ClaseEmailService {
 
     }
 
-    private void montarEmail(Session session, String email, String remitente, String asunto) throws AddressException, MessagingException{
+    private void montarEmail(Session session, String email, String remitente, String asunto){
         //Iniciamos session.
         Message mensaje = new MimeMessage(session);
         //Punto de partida del emial (emisor)
-        mensaje.setFrom(new InternetAddress(remitente));
-        //Aqui enviaremos el email, con el amigo que le ha tocado.
-        mensaje.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-        mensaje.setSubject("Amigo Invisible 🎁");
-        mensaje.setText(asunto);
-        Transport.send(mensaje);
+        try {
+            mensaje.setFrom(new InternetAddress(remitente));
+            //Aqui enviaremos el email, con el amigo que le ha tocado.
+            mensaje.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+            mensaje.setSubject("Amigo Invisible 🎁");
+            mensaje.setText(asunto);
+            Transport.send(mensaje);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private  String mensajeCliente(String nombreFamiliar, String nombreAmigo){

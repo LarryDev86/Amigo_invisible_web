@@ -31,3 +31,17 @@ body {
   text-align: center;
   padding: 10px 0;
 }
+/*Ajuste para los moviles*/
+
+@media (max-width: 768px) {
+
+    h1 {
+        font-size: 2.3rem;
+        white-space: nowrap;
+    }
+
+    .botones-header {
+        gap: 0.5rem;
+    }
+}
+
