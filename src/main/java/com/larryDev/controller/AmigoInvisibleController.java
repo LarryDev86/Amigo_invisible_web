@@ -6,8 +6,10 @@ import com.larryDev.service.ClaseEmailService;
 import com.larryDev.service.ContenedorAmigoService;
 import com.larryDev.service.FamiliarService;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,5 +73,18 @@ public class AmigoInvisibleController {
     @GetMapping("/admin")
     public String vistaAdmin() {
         return "vistaAdmin";
+    }
+    //Metodo login personalizado.
+    @GetMapping("/login")
+    public String mostrarLogin(){
+        return "formLogin";
+    }
+
+    //Metodo para logout personalizado
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request){
+        SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+        logoutHandler.logout(request,null,null);
+        return "redirect:/";
     }
 }

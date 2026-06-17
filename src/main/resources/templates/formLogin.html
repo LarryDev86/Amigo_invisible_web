@@ -1,0 +1,63 @@
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- Con esto hacemos que se ajuste mejor en los moviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Linkeado para aspecto de whatsapp-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!--Linkeado para aspecto de whatsapp-->
+    <title>Login Admin</title>
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+          crossorigin="anonymous">
+    <link th:href="@{/estilo.css}" rel="stylesheet">
+
+</head>
+
+<body>
+<header class="bg-primary text-white py-4 mb-4">
+    <div class="container text-center">
+        <h1 class="fw-bold">🎁 Amigo Invisible</h1>
+    </div>
+</header>
+<main role="main">
+            <div class="card-body">
+                <form th:action="@{/login}" method="post" class="form-signin">
+                    <div class="row">
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
+                            <img class="mb-4 rounded mx-auto d-block" th:src="@{/lock.png}" alt="" width="128" height="128">
+                            <h4 class="h3 mb-3 font-weight-normal">Login</h4>
+
+                            <div th:if="${param.error}">
+                                <span class="text-danger">Usuario / Password incorrectos!</span>
+                            </div>
+
+                            <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+
+                            <label for="username" class="sr-only">Username</label>
+                            <input type="text" name="username" id="username" class="form-control" placeholder="Username" required autofocus><br>
+                            <label for="password" class="sr-only">Password</label>
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required><br>
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+                            <!--p class="text-primary" style="font-size: small">¿Todavía no estas registrado? <a th:href="@{}">Regístrate</a></p-->
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                    </div>
+                </form>
+            </div>
+</main>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>

@@ -36,14 +36,8 @@ public class DataBaseWebSecurity {
                     .requestMatchers("/admin").authenticated().anyRequest()
                     .permitAll()
             )
-            .formLogin(form -> form.permitAll())
-            // asi es como se configura el logout de sesion  de spring security
-            .logout(logout -> logout
-                .logoutSuccessUrl("/") // después de cerrar sesión va a /
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .permitAll()
-            );
+            // Esta line hace que apuntes a la vista personalizada de login y no usando la default de spring security
+            .formLogin(form -> form.loginPage("/login").permitAll());
         return http.build();
     }
 }
