@@ -1,6 +1,5 @@
 package com.larryDev.controller;
 
-import com.larryDev.entity.ContenedorAmigoSeleccionado;
 import com.larryDev.entity.Familiar;
 import com.larryDev.service.ClaseEmailService;
 import com.larryDev.service.ContenedorAmigoService;
@@ -17,10 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 
 @Controller
 public class AmigoInvisibleController {
@@ -74,7 +69,16 @@ public class AmigoInvisibleController {
         System.out.println("Se borro con exito.. y se han puesto todos como disponibles");
         return "redirect:/logout";
     }
-
+    @GetMapping("/new")
+    public String crearnuevo(){
+        return "/formRegistro";
+    }
+    @GetMapping("/create")
+    public String nuevoFamiliar(@RequestParam("nombre") String nombre, Model modelo){
+        familiarService.nuevoFamiliar(new Familiar(nombre));
+        modelo.addAttribute("mensaje","Familiar nuevo con exito!");
+        return "/formLogin";
+    }
     @GetMapping("/admin")
     public String vistaAdmin() {
         return "vistaAdmin";
@@ -91,5 +95,15 @@ public class AmigoInvisibleController {
                 new SecurityContextLogoutHandler();
         logoutHandler.logout(request, response, authentication);
         return "redirect:/";
+    }
+    @GetMapping("/repetidos")
+    public String repetidos(RedirectAttributes modelo){
+        contenedorAmigoService.consultaCoincidencias();
+        if(familiarService.listarTodosLosFamiliaresDisponibles().isEmpty() &&
+                contenedorAmigoService.consultaCoincidencias() == 0){
+            modelo.addFlashAttribute("mng","¡Perfecto! - No ha habido ninguna coincidencia");
+            return"redirect:/";
+        }
+        return"redirect:/";
     }
 }

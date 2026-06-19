@@ -1,6 +1,7 @@
 package com.larryDev.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name="familiar")
@@ -15,6 +16,11 @@ public class Familiar {
     private String email;
     private boolean disponible;
     public Familiar() {
+        this.disponible = true;
+    }
+
+    public Familiar(String nombre) {
+        this.nombre = nombre;
         this.disponible = true;
     }
 

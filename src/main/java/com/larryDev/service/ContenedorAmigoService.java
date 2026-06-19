@@ -74,4 +74,8 @@ public class ContenedorAmigoService {
        return null;
     }
 
+    public int consultaCoincidencias(){
+        return contenedorAmigoRepository.contarFamiliaresAutoAsignados();
+    }
+
 }

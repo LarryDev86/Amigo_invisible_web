@@ -58,4 +58,9 @@ public class FamiliarService {
         }
         return null;
     }
+
+    //Alamacenar nuevo miembro de la familia
+    public void nuevoFamiliar(Familiar fam){
+        repoFamiliar.save(fam);
+    }
 }

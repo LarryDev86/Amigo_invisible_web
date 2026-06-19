@@ -29,6 +29,7 @@
     </div>
 </header>
 <div th:if="${mensaje != null}" class='alert alert-success' th:text="${mensaje}" role='alert'></div>
+<div th:if="${mng != null}" class='alert alert-success' th:text="${mng}" role='alert'></div>
 <div th:if="${mensajeError != null}" class='alert alert-danger' th:text="${mensajeError}" role='alert'></div>
 <main class="contenido">
         <!-- tu formulario -->
