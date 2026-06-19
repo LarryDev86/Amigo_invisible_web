@@ -75,19 +75,6 @@
 			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-        <!-- Jakarta EE (excluding old JavaMail implementation) -->
-        <dependency>
-            <groupId>jakarta.platform</groupId>
-            <artifactId>jakarta.jakartaee-api</artifactId>
-            <version>10.0.0</version>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.geronimo.javamail</groupId>
-                    <artifactId>geronimo-javamail_1.4_mail</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <!-- Modern Jakarta Mail implementation -->
         <dependency>
             <groupId>com.sun.mail</groupId>
