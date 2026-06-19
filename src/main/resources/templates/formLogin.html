@@ -23,34 +23,40 @@
     <div class="container text-center">
         <h1 class="fw-bold">🎁 Amigo Invisible</h1>
     </div>
+    <div class="d-flex justify-content-end">
+        <!-- Botón logout-->
+        <a class="btn btn-primary" th:href="@{/logout}">Volver al menú</a>
+    </div>
 </header>
 <main role="main">
-            <div class="card-body">
-                <form th:action="@{/login}" method="post" class="form-signin">
-                    <div class="row">
-                        <div class="col-md-4">
-                        </div>
-                        <div class="col-md-4">
-                            <img class="mb-4 rounded mx-auto d-block" th:src="@{/lock.png}" alt="" width="128" height="128">
-                            <h4 class="h3 mb-3 font-weight-normal">Login</h4>
-
-                            <div th:if="${param.error}">
-                                <span class="text-danger">Usuario / Password incorrectos!</span>
+            <div class="card">
+                <div class="card-body">
+                    <form th:action="@{/login}" method="post" class="form-signin">
+                        <div class="row">
+                            <div class="col-md-4">
                             </div>
+                            <div class="col-md-4">
+                                <img class="mb-4 rounded mx-auto d-block" th:src="@{/lock.png}" alt="" width="128" height="128">
+                                <h4 class="h3 mb-3 font-weight-normal">Login</h4>
 
-                            <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+                                <div th:if="${param.error}">
+                                    <span class="text-danger">Credenciales incorrectos!</span>
+                                </div>
 
-                            <label for="username" class="sr-only">Username</label>
-                            <input type="text" name="username" id="username" class="form-control" placeholder="Username" required autofocus><br>
-                            <label for="password" class="sr-only">Password</label>
-                            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required><br>
-                            <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
-                            <p class="text-primary" style="font-size: small">¿Todavía no estas registrado? <a href="#">Regístrate</a></p>
+                                <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+
+                                <label for="username" class="sr-only">Username</label>
+                                <input type="text" name="username" id="username" class="form-control" placeholder="Username" required autofocus><br>
+                                <label for="password" class="sr-only">Password</label>
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required><br>
+                                <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+                                <p class="text-primary" style="font-size: small">¿Todavía no estas registrado? <a href="#">Regístrate</a></p>
+                            </div>
+                            <div class="col-md-4">
+                            </div>
                         </div>
-                        <div class="col-md-4">
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
 </main>
 

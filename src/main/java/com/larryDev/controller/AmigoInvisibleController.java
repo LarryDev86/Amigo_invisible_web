@@ -7,13 +7,16 @@ import com.larryDev.service.ContenedorAmigoService;
 import com.larryDev.service.FamiliarService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +47,7 @@ public class AmigoInvisibleController {
     }
     @GetMapping("/save")
     public String eliminarFamiliar(@RequestParam("id") String id,
-                                   @RequestParam("email") String email, Model modelo) throws MessagingException {
+                                   @RequestParam("email") String email, RedirectAttributes modelo) throws MessagingException {
 
         if(email.contains("@") && email.contains("gmail") && email.contains(".com") || email.contains("gmail") && email.contains(".es") ||
                 email.contains("hotmail") && email.contains(".com") ||  email.contains("hotmail") && email.contains(".es") ||
@@ -56,10 +59,12 @@ public class AmigoInvisibleController {
                             buscarFamiliarPorId(Integer.parseInt(id)).getNombre(),email,
                     familiarService.
                             buscarFamiliarPorId(idAmigoElegido).getNombre());
-            return "vista";
+            modelo.addFlashAttribute("mensaje",
+                    " Se te ha asignado un amigo con exito. Comprueba tu correo electrónico.");
+            return "redirect:/";
         }
-        modelo.addAttribute("mensaje","El email introducido no es valido!");
-        return "error";
+        modelo.addFlashAttribute("mensajeError","El email introducido no es valido!");
+        return "redirect:/";
     }
     //Metodo para actualizar la BD
     @GetMapping("/querys")
@@ -67,7 +72,7 @@ public class AmigoInvisibleController {
         contenedorAmigoService.borrarTodaLaListaDeAmigos();
         familiarService.cambiarDisponibleTodosFamiliares();
         System.out.println("Se borro con exito.. y se han puesto todos como disponibles");
-        return "redirect:/";
+        return "redirect:/logout";
     }
 
     @GetMapping("/admin")
@@ -80,11 +85,11 @@ public class AmigoInvisibleController {
         return "formLogin";
     }
 
-    //Metodo para logout personalizado
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request){
-        SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
-        logoutHandler.logout(request,null,null);
+    public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication){
+        SecurityContextLogoutHandler logoutHandler =
+                new SecurityContextLogoutHandler();
+        logoutHandler.logout(request, response, authentication);
         return "redirect:/";
     }
 }
