@@ -16,11 +16,16 @@
     <div class="container text-center">
         <h1 class="fw-bold">Sesion Administrador</h1>
     </div>
+    <div class="d-flex justify-content-end">
+        <!-- Botón logout-->
+        <a class="btn btn-outline-secondary" th:href="@{/}">Volver al menú</a>
+    </div>
 </header>
+<div th:if="${mensaje != null}" class='alert alert-success' th:text="${mensaje}" role='alert'></div>
 <main>
     <div class="d-grid gap-2 col-6 mx-auto">
         <a class="btn btn-outline-secondary" th:href="@{/querys}">Actualizar la base de datos</a>
-        <a class="btn btn-outline-secondary" th:href="@{/new}">Nuevo familiar</a>
+        <a class="btn btn-outline-secondary" th:href="@{/new}">Nuevo Participante</a>
         <a class="btn btn-outline-secondary" th:href="@{/repetidos}">Comprobar coincidencias</a>
         <a class="btn btn-outline-secondary" th:href="@{/logout}">Cerrar sesion</a>
     </div>

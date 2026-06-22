@@ -73,11 +73,12 @@ public class AmigoInvisibleController {
     public String crearnuevo(){
         return "/formRegistro";
     }
+
     @GetMapping("/create")
     public String nuevoFamiliar(@RequestParam("nombre") String nombre, Model modelo){
         familiarService.nuevoFamiliar(new Familiar(nombre));
         modelo.addAttribute("mensaje","Familiar nuevo con exito!");
-        return "/formLogin";
+        return "/formRegistro";
     }
     @GetMapping("/admin")
     public String vistaAdmin() {
@@ -97,13 +98,13 @@ public class AmigoInvisibleController {
         return "redirect:/";
     }
     @GetMapping("/repetidos")
-    public String repetidos(RedirectAttributes modelo){
+    public String repetidos(Model modelo){
         contenedorAmigoService.consultaCoincidencias();
         if(familiarService.listarTodosLosFamiliaresDisponibles().isEmpty() &&
                 contenedorAmigoService.consultaCoincidencias() == 0){
-            modelo.addFlashAttribute("mng","¡Perfecto! - No ha habido ninguna coincidencia");
-            return"redirect:/";
+            modelo.addAttribute("mensaje","¡Perfecto! - No ha habido ninguna coincidencia");
+            return"/vistaAdmin";
         }
-        return"redirect:/";
+        return"/vistaAdmin";
     }
 }
