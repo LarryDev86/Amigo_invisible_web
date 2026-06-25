@@ -6,7 +6,8 @@ El usuario selecciona su nombre desde un formulario, introduce su email y recibe
 
 El sistema controla que cada participante solo pueda jugar una vez, ocultándolo automáticamente del formulario tras completar el proceso.
 
-Además, incluye un panel de administración para reiniciar los participantes y reutilizar la aplicación en futuros sorteos familiares.
+Además, incluye un panel de administración para reiniciar los participantes y reutilizar la aplicación en futuros sorteos familiares. El acceso al panel del administrador 
+tiene acceso controlado con una vista de username y password para para poder acceder mediante Spring security.
 
 ---
 
@@ -21,6 +22,8 @@ Además, incluye un panel de administración para reiniciar los participantes y 
 - HTML
 - CSS
 - Maven
+- Spring security
+
 
 ---
 
@@ -45,6 +48,8 @@ El administrador puede realizar las siguientes acciones:
 - Reiniciar participantes para nuevas ediciones
 - Volver a habilitar usuarios ocultos
 - Gestionar el estado del sorteo anual
+- añadir nuevos miembros
+- eliminar miembros
 
 ---
 
@@ -56,27 +61,46 @@ El proyecto sigue una arquitectura en capas:
 - `service` → lógica de negocio y reglas del sorteo
 - `repository` → acceso a base de datos mediante JPA
 - `entity` → modelo persistente
+- `security` → control de seguridad de los accesos
 
 ---
 
 # Estructura principal
 
 ```plaintext
-src/main/java/com/larryDev
-├── controller
-│   └── AmigoInvisibleController.java
+├───java
+│   └───com
+│       └───larryDev
+│           │   AmigoInvisibleApplication.java
+│           │
+│           ├───controller
+│           │       AmigoInvisibleController.java
+│           │
+│           ├───entity
+│           │       ContenedorAmigoSeleccionado.java
+│           │       Familiar.java
+│           │
+│           ├───repository
+│           │       ContenedorAmigoRepository.java
+│           │       FamiliarRepository.java
+│           │
+│           ├───security
+│           │       DataBaseWebSecurity.java
+│           │
+│           └───service
+│                   ClaseEmailService.java
+│                   ContenedorAmigoService.java
+│                   FamiliarService.java
 │
-├── entity
-│   ├── Familiar.java
-│   └── ContenedorAmigoSeleccionado.java
-│
-├── repository
-│   ├── FamiliarRepository.java
-│   └── ContenedorAmigoRepository.java
-│
-├── service
-│   ├── FamiliarService.java
-│   ├── ContenedorAmigoService.java
-│   └── ClaseEmailService.java
-│
-└── AmigoInvisibleApplication.java
+└───resources
+    │   application.properties
+    │
+    ├───static
+    │       estilo.css
+    │       lock.png
+    │
+    └───templates
+            formLogin.html
+            formRegistro.html
+            formulario.html
+            vistaAdmin.html
