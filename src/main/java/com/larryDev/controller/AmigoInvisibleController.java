@@ -44,21 +44,25 @@ public class AmigoInvisibleController {
     public String eliminarFamiliar(@RequestParam("id") String id,
                                    @RequestParam("email") String email, RedirectAttributes modelo) throws MessagingException {
 
-        if(email.contains("@") && email.contains("gmail") && email.contains(".com") || email.contains("gmail") && email.contains(".es") ||
-                email.contains("hotmail") && email.contains(".com") ||  email.contains("hotmail") && email.contains(".es") ||
-                email.contains("icloud") && email.contains(".com") ){
-            int idAmigoElegido = contenedorAmigoService.asignarAmigo(familiarService.listarTodosLosFamiliares(),
-                    Integer.parseInt(id));
-            //Invocamos la clase del email.
-            claseEmailService.enviarEmail(familiarService.
-                            buscarFamiliarPorId(Integer.parseInt(id)).getNombre(),email,
-                    familiarService.
-                            buscarFamiliarPorId(idAmigoElegido).getNombre());
-            modelo.addFlashAttribute("mensaje",
-                    " Se te ha asignado un amigo con exito. Comprueba tu correo electrónico.");
+        if(familiarService.comprobarEstadoFamiliar(Integer.parseInt(id))){
+            if(email.contains("@") && email.contains("gmail") && email.contains(".com") || email.contains("gmail") && email.contains(".es") ||
+                    email.contains("hotmail") && email.contains(".com") ||  email.contains("hotmail") && email.contains(".es") ||
+                    email.contains("icloud") && email.contains(".com") ){
+                int idAmigoElegido = contenedorAmigoService.asignarAmigo(familiarService.listarTodosLosFamiliares(),
+                        Integer.parseInt(id));
+                //Invocamos la clase del email.
+                claseEmailService.enviarEmail(familiarService.
+                                buscarFamiliarPorId(Integer.parseInt(id)).getNombre(),email,
+                        familiarService.
+                                buscarFamiliarPorId(idAmigoElegido).getNombre());
+                modelo.addFlashAttribute("mensaje",
+                        " Se te ha asignado un amigo con exito. Comprueba tu correo electrónico.");
+                return "redirect:/";
+            }
+            modelo.addFlashAttribute("mensajeError","El email introducido no es valido!");
             return "redirect:/";
         }
-        modelo.addFlashAttribute("mensajeError","El email introducido no es valido!");
+        modelo.addFlashAttribute("mensajeError","El usuario ya esta asignado!");
         return "redirect:/";
     }
     //Metodo para actualizar la BD

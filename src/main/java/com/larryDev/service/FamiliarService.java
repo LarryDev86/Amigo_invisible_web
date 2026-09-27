@@ -19,6 +19,14 @@ public class FamiliarService {
 
         this.repoFamiliar = repoFamiliar;
     }
+    public boolean comprobarEstadoFamiliar(int id){
+        Optional <Familiar> fam = repoFamiliar.findById(id);
+        if(fam.isPresent()){
+            //Aqui devuelve true (porque lo ha encontrado)
+            return fam.get().isDisponible();
+        }
+        return false;
+    }
     public void cambiarDisponibleTodosFamiliares(){
 
         for (Familiar f : listarTodosLosFamiliares()) {

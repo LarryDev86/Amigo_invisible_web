@@ -28,10 +28,12 @@
         </a>
     </div>
 </header>
-<div th:if="${mensaje != null}" class='alert alert-success' th:text="${mensaje}" role='alert'></div>
-<div th:if="${mng != null}" class='alert alert-success' th:text="${mng}" role='alert'></div>
-<div th:if="${mensajeError != null}" class='alert alert-danger' th:text="${mensajeError}" role='alert'></div>
-<main class="contenido">
+        <div th:if="${mensaje != null || mng != null || mensajeError != null}"
+             id="mensaje"
+             th:class="${mensajeError != null} ? 'alert alert-danger' : 'alert alert-success'"
+             th:text="${mensaje != null ? mensaje : (mng != null ? mng : mensajeError)}"
+             role="alert">
+        </div>
         <!-- tu formulario -->
         <form class="px-4 py-3" th:action="@{/save}" method="get">
             <div class="mb-3">
@@ -59,10 +61,19 @@
     <footer class="pie">
 
             <small>
-                © 2025 Alfonso Redondo. Todos los derechos reservados.
+                © 2026 Alfonso Redondo. Todos los derechos reservados.
             </small>
 
     </footer>
+    <script>
+        const mensaje = document.getElementById("mensaje");
+
+        if (mensaje) {
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
             crossorigin="anonymous"></script>
