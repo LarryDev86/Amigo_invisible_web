@@ -2,80 +2,151 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <!-- Con esto hacemos que se ajuste mejor en los moviles -->
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!--Linkeado para aspecto de whatsapp-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!--Linkeado para aspecto de whatsapp-->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Bootstrap core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-          rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+          rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
           crossorigin="anonymous">
+
     <link th:href="@{/estilo.css}" rel="stylesheet">
+
     <title>Amigo invisible - Inicio</title>
 </head>
+
 <body>
-<header class="bg-primary text-white py-4 mb-4">
-    <div class="container text-center">
-        <h1 class="fw-bold">🎁 Amigo Invisible</h1>
+
+<header class="cabecera">
+
+    <div class="titulo-header">
+        <h1>🎁 Amigo Invisible</h1>
     </div>
-    <div class="d-flex justify-content-end">
-    <!-- Botón -->
-        <a class="btn btn-primary" th:href="@{/admin}">
-            Login Admin
-        </a>
-    </div>
+
+    <a class="login-admin"
+       th:href="@{/admin}">
+        Login Admin
+    </a>
+
 </header>
-        <div th:if="${mensaje != null || mng != null || mensajeError != null}"
-             id="mensaje"
-             th:class="${mensajeError != null} ? 'alert alert-danger' : 'alert alert-success'"
-             th:text="${mensaje != null ? mensaje : (mng != null ? mng : mensajeError)}"
-             role="alert">
-        </div>
-        <!-- tu formulario -->
-        <form class="px-4 py-3" th:action="@{/save}" method="get">
-            <div class="mb-3">
-                <select class="form-select" name="id" required>
-                    <option value="" selected>Selecciona un amigo invisible</option>
+
+
+<main class="zona-principal">
+
+    <!-- Fondo animado -->
+    <div id="decoracion-navidad"
+         aria-hidden="true">
+    </div>
+
+
+    <!-- Mensajes -->
+    <div th:if="${mensaje != null || mng != null || mensajeError != null}"
+         id="mensaje"
+         class="mensaje-flotante"
+         th:classappend="${mensajeError != null}
+                ? ' alert alert-danger'
+                : ' alert alert-success'"
+         th:text="${mensaje != null ? mensaje : (mng != null ? mng : mensajeError)}"
+         role="alert">
+    </div>
+
+
+    <!-- Tarjeta -->
+    <section class="tarjeta-amigo">
+
+        <p class="texto-ayuda">
+            Introduce tus datos y descubre tu amigo invisible
+        </p>
+
+        <form th:action="@{/save}"
+              method="get">
+
+            <div class="mb-4 campo-icono">
+
+                <i class="fa-solid fa-users"></i>
+
+                <select class="form-select"
+                        name="id"
+                        required>
+
+                    <option value=""
+                            selected>
+                        Selecciona un amigo invisible
+                    </option>
+
                     <option th:each="f : ${familiares}"
                             th:value="${f.id}"
                             th:text="${f.nombre}">
                     </option>
+
                 </select>
+
             </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="text" class="form-control" name = "email" id="email" required>
+
+
+            <div class="mb-4 campo-icono">
+
+                <i class="fa-regular fa-envelope"></i>
+
+                <input type="email"
+                       class="form-control"
+                       name="email"
+                       id="email"
+                       placeholder="Email"
+                       required>
+
             </div>
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+
+
+            <div class="mb-4 form-check">
+
+                <input type="checkbox"
+                       class="form-check-input"
+                       id="exampleCheck1"
+                       required>
+
+                <label class="form-check-label"
+                       for="exampleCheck1">
+                    Confirmo que los datos son correctos
+                </label>
+
             </div>
-            <button type="submit" class="btn btn-primary"> Enviar </button>
+
+
+            <button type="submit"
+                    class="btn-enviar">
+
+                <i class="fa-regular fa-paper-plane"></i>
+
+                Enviar
+
+            </button>
+
         </form>
-    </main>
 
-    <!-- copyryde -->
-    <footer class="pie">
+    </section>
 
-            <small>
-                © 2026 Alfonso Redondo. Todos los derechos reservados.
-            </small>
+</main>
 
-    </footer>
-    <script>
-        const mensaje = document.getElementById("mensaje");
 
-        if (mensaje) {
-            setTimeout(() => {
-                window.location.reload();
-            }, 3000);
-        }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-            crossorigin="anonymous"></script>
+<footer class="pie">
+
+    <small>
+        © 2026 Alfonso Redondo. Todos los derechos reservados.
+    </small>
+
+</footer>
+
+
+<script th:src="@{/js/animacion.js}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous">
+</script>
+
 </body>
 </html>
