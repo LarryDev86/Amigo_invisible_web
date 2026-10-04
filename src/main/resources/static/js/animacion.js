@@ -118,3 +118,16 @@ if (mensaje) {
     }, 3000);
 
 }
+/*
+ * ==============================
+ * MENSAJE LOGIN
+ * ==============================
+ */
+
+const mensajeLogin = document.getElementById("mensajeLogin");
+
+if (mensajeLogin) {
+    setTimeout(() => {
+        mensajeLogin.style.display = "none";
+    }, 3000);
+}
