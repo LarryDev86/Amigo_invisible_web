@@ -32,7 +32,6 @@ public class ContenedorAmigoService {
 
         while(true){
             idElegido = ran.nextInt(listaFam.size())+1;
-            //Familiar famElegido = listaFam.get(ran.nextInt(listaFam.size())+1);
             if(idElegido == id)continue;
             boolean yaSalio = false;
             //Comprobamos el numero random, con los id que hay en la tabla de amigos que ya le han tocado a alguien.
